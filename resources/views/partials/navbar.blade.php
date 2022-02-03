@@ -12,7 +12,7 @@
         <li><a href="{{route('home')}}">Home</a></li>
         <li><a href="{{route('about')}}">Chi Sono</a></li>
         <li><a href="{{route('gallery')}}">Galleria</a></li>
-        <li><a href="#">Contatti</a></li>
+        <li><a href="{{route('contact')}}">Contatti</a></li>
       </ul>
       <!-- /.navbar-nav --> 
     </div>
