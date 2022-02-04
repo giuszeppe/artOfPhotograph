@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ImageController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +28,17 @@ Route::get('/gallery', function () {
 Route::get('/contact', function () {
     return view('pages.contact');
 })->name('contact');
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Auth::routes();
+});
+Route::group(['middleware' => 'auth:web', 'prefix' => 'admin'], function () {
+    Route::get('images', [ImageController::class, 'index']);
+});
+
+
+
 
 Route::fallback(function () {
     return redirect('home');
