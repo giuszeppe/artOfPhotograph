@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 Route::get('/home', function () {
     return view('pages.home');
 })->name('home');
@@ -25,3 +23,10 @@ Route::get('/about', function () {
 Route::get('/gallery', function () {
     return view('pages.gallery');
 })->name('gallery');
+Route::get('/contact', function () {
+    return view('pages.contact');
+})->name('contact');
+
+Route::fallback(function () {
+    return redirect('home');
+});
