@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app',['navOpt' => 'solid dark'])
 
 @section('content')
   <div class="tp-fullscreen-container revolution">

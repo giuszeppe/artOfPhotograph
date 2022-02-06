@@ -30,9 +30,8 @@ Route::get('/contact', function () {
 })->name('contact');
 
 
-Route::group(['prefix' => 'admin'], function () {
-    Auth::routes();
-});
+Auth::routes();
+
 Route::group(['middleware' => 'auth:web', 'prefix' => 'admin'], function () {
     Route::get('images', [ImageController::class, 'index']);
 });
