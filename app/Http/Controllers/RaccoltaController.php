@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Image;
+use App\Models\Raccolta;
 use Illuminate\Http\Request;
 
-class ImageController extends Controller
+class RaccoltaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,16 +14,7 @@ class ImageController extends Controller
      */
     public function index()
     {
-
-        $images = [];
-        foreach (config('database.category') as $category) {
-            $images[$category] = [];
-        }
-        $arr_keys = array_keys($images);
-        foreach (Image::all() as $image) {
-            array_push($images[$arr_keys[$image->cat_id]], $image);
-        }
-        return view('auth.images.index', ['images' => $images]);
+        //
     }
 
     /**
@@ -50,10 +41,10 @@ class ImageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Image  $image
+     * @param  \App\Models\Raccolta  $raccolta
      * @return \Illuminate\Http\Response
      */
-    public function show(Image $image)
+    public function show(Raccolta $raccolta)
     {
         //
     }
@@ -61,10 +52,10 @@ class ImageController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Image  $image
+     * @param  \App\Models\Raccolta  $raccolta
      * @return \Illuminate\Http\Response
      */
-    public function edit(Image $image)
+    public function edit(Raccolta $raccolta)
     {
         //
     }
@@ -73,10 +64,10 @@ class ImageController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Image  $image
+     * @param  \App\Models\Raccolta  $raccolta
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Image $image)
+    public function update(Request $request, Raccolta $raccolta)
     {
         //
     }
@@ -84,10 +75,10 @@ class ImageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Image  $image
+     * @param  \App\Models\Raccolta  $raccolta
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Image $image)
+    public function destroy(Raccolta $raccolta)
     {
         //
     }
