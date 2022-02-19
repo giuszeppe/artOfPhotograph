@@ -13,4 +13,8 @@ class Category extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+    public function raccolte()
+    {
+        return $this->hasMany(Raccolta::class);
+    }
 }

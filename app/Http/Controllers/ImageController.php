@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Image;
 use Illuminate\Http\Request;
 
@@ -14,16 +15,9 @@ class ImageController extends Controller
      */
     public function index()
     {
-
-        $images = [];
-        foreach (config('database.category') as $category) {
-            $images[$category] = [];
-        }
-        $arr_keys = array_keys($images);
-        foreach (Image::all() as $image) {
-            array_push($images[$arr_keys[$image->cat_id]], $image);
-        }
-        return view('auth.images.index', ['images' => $images]);
+        $categories = Category::with(['raccolte:id,category_id', 'raccolte', 'raccolte.images'])->where('name', '<>', 'homepage')->get();
+        $homepage = Category::where('name', 'homepage')->first()->images;
+        return view('auth.images.index', ['homepage' => $homepage, 'categories' => $categories]);
     }
 
     /**
