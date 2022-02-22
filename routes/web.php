@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ImageController;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/home', function () {
-    return view('pages.home');
+    $cat = Category::where('name', 'homepage')->with('images')->first();
+    return view('pages.home', ['images' => $cat->images]);
 })->name('home');
 Route::get('/about', function () {
     return view('pages.about');
@@ -35,10 +37,12 @@ Auth::routes();
 Route::group(['middleware' => 'auth:web', 'prefix' => 'admin'], function () {
     Route::get('images', [ImageController::class, 'index']);
 });
+Route::view('fileManager', 'auth.images.fileManager');
 
 
 
 
-Route::fallback(function () {
+/*Route::fallback(function () {
     return redirect('home');
 });
+*/

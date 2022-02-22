@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
+use App\Models\Image;
+use App\Models\Raccolta;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -27,6 +31,126 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Event::listen(
+            'Alexusmai\LaravelFileManager\Events\DirectoryCreating',
+            function ($event) {
+                Log::info('DirectoryCreating:', [
+                    $event->disk(),
+                    $event->path(),
+                    $event->name(),
+                ]);
+                if (count(explode('/', $event->path())) >= 2) {
+                    abort(401, 'Azione non permessa');
+                }
+            }
+        );
+
+
+
+
+        Event::listen('Alexusmai\LaravelFileManager\Events\DirectoryCreated', function ($event) {
+            Log::info($event->path() . ' ' . $event->name());
+            if ($event->path() == '') {
+                Category::create(['name' => $event->name()]);
+                Log::info('prova');
+            } else {
+                $cat = Category::where('name', $event->path())->first();
+                $raccolta = new Raccolta();
+                $raccolta->titolo = $event->name();
+                $raccolta->category_id = $cat->id;
+                $raccolta->save();
+            }
+        });
+        Event::listen(
+            'Alexusmai\LaravelFileManager\Events\FileCreating',
+            function ($event) {
+                Log::info('FileCreating:', [
+                    $event->disk(),
+                    $event->path(),
+                    $event->name(), storage_path() . $event->path() . $event->name()
+                ]);
+
+                if ($event->path() == '') {
+                    $cat = Category::where('name', 'homepage')->first();
+                    $img = new Image();
+                    $img->image_path =  $event->path() . '/' . $event->name();
+                    $img->imageable_id =  $cat->id;
+                    $img->imageable_type = Category::class;
+                    $img->save();
+                } else if (count(explode('/', $event->path())) == 1) {
+                    abort(401, 'Non puoi creare file dentro alle category, solo aggiungere raccolte.');
+                } else if (count(explode('/', $event->path())) > 2) {
+                    abort(401, 'Azione non permessa.');
+                } else {
+                    $racc = Raccolta::where('titolo', explode('/', $event->path())[1])->first();
+                    $img = new Image();
+                    $img->image_path =  $event->path() . '/' . $event->name();
+                    $img->imageable_id =  $racc->id;
+                    $img->imageable_type = Raccolta::class;
+                    $img->save();
+                }
+            }
+        );
+        Event::listen(
+            'Alexusmai\LaravelFileManager\Events\FilesUploading',
+            function ($event) {
+                Log::info('FilesUploading:', [
+                    $event->disk(),
+                    $event->path(),
+                    $event->files(),
+                    $event->overwrite(),
+                ]);
+                if ($event->path() == '') {
+                    $cat = Category::where('name', 'homepage')->first();
+                    $img = new Image();
+                    $img->image_path =  $event->path() . '/' . $event->name();
+                    $img->imageable_id =  $cat->id;
+                    $img->imageable_type = Category::class;
+                    $img->save();
+                } else if (count(explode('/', $event->path())) == 1) {
+                    abort(401, 'Non puoi creare file dentro alle category, solo aggiungere raccolte.');
+                } else if (count(explode('/', $event->path())) > 2) {
+                    abort(401, 'Azione non permessa.');
+                } else {
+                    $racc = Raccolta::where('titolo', explode('/', $event->path())[1])->first();
+                    $img = new Image();
+                    $img->image_path =  $event->path() . '/' . $event->name();
+                    $img->imageable_id =  $racc->id;
+                    $img->imageable_type = Raccolta::class;
+                    $img->save();
+                }
+            }
+
+
+        );
+
+
+
+        Event::listen(
+            'Alexusmai\LaravelFileManager\Events\Deleting',
+            function ($event) {
+                $path = $event->items()[0]['path'];
+                Log::info('Deleting:', [
+                    $event->disk(),
+                    $event->items(),
+                    $path
+                ]);
+                //categoria
+                $pathExploded = explode('/', $path);
+                if ($event->items()[0]['type'] == 'dir') {
+                    if (count($pathExploded) == 1) {
+                        Category::where('name', $path)->first()->delete();
+                        //raccolta
+                    } else {
+                        Raccolta::where('titolo', end($pathExploded))->first()->delete();
+                    }
+                } else {
+                    Image::destroy(Image::where('image_path', $path)->first()->id);
+                }
+
+                //immagine
+
+            }
+        );
     }
 }

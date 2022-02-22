@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryFactory extends Factory
 {
@@ -11,10 +12,15 @@ class CategoryFactory extends Factory
      *
      * @return array
      */
+    static int $num = 0;
+
     public function definition()
     {
+        $path = 'Prova' . static::$num;
+        Storage::makeDirectory('public/' . $path);
+        static::$num++;
         return [
-            'name' => 'Prova'
+            'name' => $path
         ];
     }
 }

@@ -14,12 +14,11 @@ class ImageFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
-        $faker = new Faker();
 
         return [
-            'image_path' => $this->faker->image(public_path('images'), 640, 480, null, false),
+            'image_path' => 'storage/app/public/default.png',
         ];
     }
 }
