@@ -16,9 +16,8 @@ class ImageFactory extends Factory
      */
     public function definition(): array
     {
-
         return [
-            'image_path' => 'storage/app/public/default.png',
+            'image_path' => 'default.png',
         ];
     }
 }

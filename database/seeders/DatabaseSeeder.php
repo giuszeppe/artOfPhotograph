@@ -21,6 +21,23 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
+
+    static function addToFile($file, $where, $data)
+    {
+        $data = '
+        <div class="item">
+                <figure class="frame">
+                        <img src="' . $data . '" alt="" />
+                </figure>
+        </div>';
+        $contents = file_get_contents($file);
+        $pos = strpos($contents, '<!--APPEND HERE-->');
+        $contents = substr_replace($contents, $data, $pos + strlen('<!--APPEND HERE--> '), 0);
+        file_put_contents($file, $contents);
+
+        return 0;
+    }
+
     public function run()
     {
         $faker = Faker\Factory::create();
@@ -39,14 +56,28 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => bcrypt('password')
         ]);
-        Category::factory()->hasImages(1)->create(['name' => 'homepage']);
+        Category::factory()
+            ->hasImages(1, function ($attributes, Category $cat) use ($faker) {
+                $imageName = $faker->image($cat->path, 640, 480, null, false);
+                $frontendPath = $cat->path . '/' . $imageName;
+                return [
+                    "image_path" => $imageName,
+                    'frontendPath' => $frontendPath,
+                ];
+            })
+            ->create(['name' => 'homepage']);
 
         Category::factory()
             ->has(
                 Raccolta::factory()->count(3)
                     ->hasImages(4, function ($attributes, Raccolta $racc) use ($faker) {
+                        $imageName = $faker->image($racc->path, 640, 480, null, false);
+                        $frontendPath = $racc->frontendPath . '/' . $imageName;
+                        DatabaseSeeder::addToFile($racc->path . '/project.html', '<!--APPEND HERE-->', $frontendPath);
+
                         return [
-                            "image_path" => $faker->image('./storage/app/public/' . $racc->category->name . '/' . $racc->titolo, 640, 480, null, false)
+                            "image_path" => $imageName,
+                            'frontendPath' => $frontendPath,
                         ];
                     }),
                 'raccolte'

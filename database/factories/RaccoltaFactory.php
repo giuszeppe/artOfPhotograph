@@ -27,11 +27,18 @@ class RaccoltaFactory extends Factory
     {
         $this->titolo = $this->faker->word();
         $cat = Category::orderByDesc('id')->first();
-        Log::info($cat->id);
-        Storage::makeDirectory('public/' . $cat->name . '/' . $this->titolo);
+        $path = 'public/' . $cat->name . '/' . $this->titolo;
+        $frontendPath = 'storage/' . $cat->name . '/' . $this->titolo;
 
+        Storage::makeDirectory($path);
+
+
+        Storage::putFileAs($path, storage_path('app/project_example.html'), 'project.html');
+        $path = 'storage/app/public/' . $cat->name . '/' . $this->titolo;
         return [
             'titolo' => $this->titolo,
+            'path' => $path,
+            'frontendPath' => $frontendPath
             //
         ];
     }

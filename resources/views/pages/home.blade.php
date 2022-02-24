@@ -5,7 +5,7 @@
     <div class="tp-fullscreen">
       <ul>
         @foreach ($images as $image)
-        <li data-transition="fade"> <img src="{{$image->image_path}}"  alt="" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat" />
+        <li data-transition="fade"> <img src="{{'storage/' . $image->imageable->name . '/' . $image->image_path}}"  alt="" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat" />
             
         @endforeach
          <!-- <h1 class="tp-caption large sfr" data-x="30" data-y="263" data-speed="900" data-start="800" data-easing="Sine.easeOut">hello! this is lydia</h1>

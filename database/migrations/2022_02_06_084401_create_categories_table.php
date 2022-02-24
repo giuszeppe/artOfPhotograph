@@ -17,6 +17,8 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
+            $table->string('path');
+            $table->string('frontendPath')->nullable();
         });
     }
 

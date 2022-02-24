@@ -25,24 +25,32 @@
             }
         </style>
       <div id="js-filters-full-width" class="cbp-filter-container text-center">
+        @foreach ($categories as $cat)
+          <div data-filter=".{{$cat->name}}" class="cbp-filter-item"> {{$cat->name}} </div>
+        @endforeach
         <div data-filter="*" class="cbp-filter-item-active cbp-filter-item"> All </div>
         <div data-filter=".matrimoni" class="cbp-filter-item"> Matrimoni </div>
         <div data-filter=".battesimi" class="cbp-filter-item"> Battesimi</div>
         <div data-filter=".aziendale" class="cbp-filter-item"> Foto Aziendali </div>
       </div>
+      
       <div id="js-grid-full-width" class="cbp">
-        <div class="cbp-item aziendale"> <a href="ajax/project1.html" class="cbp-caption cbp-singlePageInline">
-          <div class="cbp-caption-defaultWrap"> <img src="style/images/art/pf1.jpg" alt="" /> </div>
-          <div class="cbp-caption-activeWrap">
-            <div class="cbp-l-caption-alignCenter">
-              <div class="cbp-l-caption-body">
-                <div class="cbp-l-caption-title">Amet Fermentum Egestas</div>
+          @foreach ($raccolte as $racc)
+          <div class="cbp-item {{$racc->category->name}}"> <a href="{{$racc->frontendPath}}/project.html" class="cbp-caption cbp-singlePageInline">
+            <div class="cbp-caption-defaultWrap"> <img src="{{$racc->images[0]->frontendPath}}" alt="" /> </div>
+            <div class="cbp-caption-activeWrap">
+              <div class="cbp-l-caption-alignCenter">
+                <div class="cbp-l-caption-body">
+                  <div class="cbp-l-caption-title">{{$racc->titolo}}</div>
+                </div>
               </div>
             </div>
-          </div>
-          <!--/.cbp-caption-activeWrap --> 
-          </a> </div>
+            <!--/.cbp-caption-activeWrap --> 
+          </a> 
+        </div>
         <!--/.cbp-item -->
+        @endforeach
+        
         
         <div class="cbp-item matrimoni"> <a href="ajax/project2.html" class="cbp-caption cbp-singlePageInline">
           <div class="cbp-caption-defaultWrap"> <img src="style/images/art/pf2.jpg" alt="" /> </div>

@@ -20,6 +20,8 @@ class CreateRaccoltasTable extends Migration
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')
                 ->onDelete('CASCADE');
+            $table->string('path');
+            $table->string('frontendPath');
         });
     }
 

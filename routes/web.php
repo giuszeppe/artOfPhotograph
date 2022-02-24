@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ImageController;
 use App\Models\Category;
+use App\Models\Raccolta;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +26,9 @@ Route::get('/about', function () {
     return view('pages.about');
 })->name('about');
 Route::get('/gallery', function () {
-    return view('pages.gallery');
+    $categories = Category::where('name', '<>', 'homepage')->get();
+    $raccolte = Raccolta::all();
+    return view('pages.gallery', compact(['categories', 'raccolte']));
 })->name('gallery');
 Route::get('/contact', function () {
     return view('pages.contact');
