@@ -23,6 +23,18 @@ class RaccoltaFactory extends Factory
         $this->titolo = $this->faker->word();
     }
 
+    public static function createRaccolta($cat, $titolo)
+    {
+        $path = 'public/' . $cat->name . '/' . $titolo;
+        $frontendPath = 'storage/' . $cat->name . '/' . $titolo;
+
+        Storage::makeDirectory($path);
+
+
+        Storage::putFileAs($path, storage_path('app/project_example.html'), 'project.html');
+        return ['path' => 'storage/app/public/' . $cat->name . '/' . $titolo, 'frontendPath' => $frontendPath];
+    }
+
     public function definition()
     {
         $this->titolo = $this->faker->word();

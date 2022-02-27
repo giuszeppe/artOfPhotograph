@@ -23,10 +23,11 @@ Route::get('/home', function () {
     return view('pages.home', ['images' => $cat->images]);
 })->name('home');
 Route::get('/about', function () {
-    return view('pages.about');
+    $about = Category::where('name', 'about')->first()->images;
+    return view('pages.about', compact('about'));
 })->name('about');
 Route::get('/gallery', function () {
-    $categories = Category::where('name', '<>', 'homepage')->get();
+    $categories = Category::where('name', '<>', 'homepage')->where('name', '<>', 'about')->get();
     $raccolte = Raccolta::all();
     return view('pages.gallery', compact(['categories', 'raccolte']));
 })->name('gallery');

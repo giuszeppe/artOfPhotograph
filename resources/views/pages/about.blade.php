@@ -62,7 +62,7 @@
             </div>
         </div>
         <div>
-            <img src="/style/images/aboutPic.jpg" alt="">
+            <img src="{{$about[0]->frontendPath ?? 'storage/default.png'}}" alt="">
         </div>
     </div>
 @endsection

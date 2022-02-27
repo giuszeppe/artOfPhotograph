@@ -37,7 +37,7 @@
       <div id="js-grid-full-width" class="cbp">
           @foreach ($raccolte as $racc)
           <div class="cbp-item {{$racc->category->name}}"> <a href="{{$racc->frontendPath}}/project.html" class="cbp-caption cbp-singlePageInline">
-            <div class="cbp-caption-defaultWrap"> <img src="{{$racc->images[0]->frontendPath}}" alt="" /> </div>
+            <div class="cbp-caption-defaultWrap"> <img src="{{$racc->images[0]->frontendPath ?? 'storage/default.png'}}" alt="" /> </div>
             <div class="cbp-caption-activeWrap">
               <div class="cbp-l-caption-alignCenter">
                 <div class="cbp-l-caption-body">

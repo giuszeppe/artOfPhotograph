@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Raccolta;
+use Database\Factories\RaccoltaFactory;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -49,15 +51,18 @@ class EventServiceProvider extends ServiceProvider
 
 
         Event::listen('Alexusmai\LaravelFileManager\Events\DirectoryCreated', function ($event) {
-            Log::info($event->path() . ' ' . $event->name());
+
             if ($event->path() == '') {
-                Category::create(['name' => $event->name()]);
+                Category::factory()->create(['name' => $event->name()]);
                 Log::info('prova');
             } else {
                 $cat = Category::where('name', $event->path())->first();
                 $raccolta = new Raccolta();
                 $raccolta->titolo = $event->name();
                 $raccolta->category_id = $cat->id;
+                $paths = RaccoltaFactory::createRaccolta($cat, $event->name());
+                $raccolta->path = $paths['path'];
+                $raccolta->frontendPath = $paths['frontendPath'];
                 $raccolta->save();
             }
         });
@@ -118,6 +123,8 @@ class EventServiceProvider extends ServiceProvider
                         $racc = Raccolta::where('titolo', explode('/', $event->path())[1])->first();
                         $img = new Image();
                         $img->image_path =  $file['name'];
+                        $img->frontendPath = $racc->frontendPath . '/'  . $file['name'];
+                        DatabaseSeeder::addToFile($racc->frontendPath . '/project.html', '<!--APPEND HERE-->', $img->frontendPath);
                         $img->imageable_id =  $racc->id;
                         $img->imageable_type = Raccolta::class;
                         $img->save();
@@ -129,29 +136,31 @@ class EventServiceProvider extends ServiceProvider
         Event::listen(
             'Alexusmai\LaravelFileManager\Events\Deleting',
             function ($event) {
-                $path = $event->items()[0]['path'];
-                $pathExploded = explode('/', $path);
                 Log::info('Deleting:', [
                     $event->disk(),
                     $event->items(),
-                    $path,
-                    $pathExploded
                 ]);
                 //categoria
+                foreach ($event->items() as $item) {
+                    $path = $item['path'];
+                    $pathExploded = explode('/', $path);
 
-                if ($event->items()[0]['type'] == 'dir') {
-                    if ($pathExploded[0] == 'homepage' || $pathExploded[0] == 'about') {
-                        abort(401, 'Azione non permessa');
-                    } else if (count($pathExploded) == 1) {
-                        Category::where('name', $path)->first()->delete();
-                        //raccolta
+                    if ($item['type'] == 'dir') {
+                        if ($pathExploded[0] == 'homepage' || $pathExploded[0] == 'about') {
+                            abort(401, 'Azione non permessa');
+                        } else if (count($pathExploded) == 1) {
+                            Category::where('name', $path)->first()->delete();
+                            //raccolta
+                        } else {
+                            Raccolta::where('titolo', end($pathExploded))->first()->delete();
+                        }
                     } else {
-                        Raccolta::where('titolo', end($pathExploded))->first()->delete();
+                        //immagine
+                        $fileName = end($pathExploded);
+                        $image = Image::where('image_path', $fileName)->first();
+                        DatabaseSeeder::removeFromFile($image->imageable->frontendPath . '/project.html', $image);
+                        Image::destroy($image->id);
                     }
-                } else {
-                    //immagine
-                    $fileName = end($pathExploded);
-                    Image::destroy(Image::where('image_path', $fileName)->first()->id);
                 }
             }
         );

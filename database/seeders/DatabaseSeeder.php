@@ -24,7 +24,9 @@ class DatabaseSeeder extends Seeder
 
     static function addToFile($file, $where, $data)
     {
+        $imgName = explode('/', $data);
         $data = '
+        <!--REMOVE ' . end($imgName) . '-->' . '
         <div class="item">
                 <figure class="frame">
                         <img src="' . $data . '" alt="" />
@@ -36,6 +38,24 @@ class DatabaseSeeder extends Seeder
         file_put_contents($file, $contents);
 
         return 0;
+    }
+    static function removeFromFile($file, $imageInstance)
+    {
+        $lines = file($file);
+        $i = 0;
+        $linePos = 0;
+        if (!$lines) {
+            abort(404, 'file not found');
+        }
+        for ($i = 0; $i < count($lines); $i++) {
+            $pos = strpos($lines[$i], '<!--REMOVE ' . $imageInstance->image_path . '-->');
+            if ($pos != false) {
+                $linePos = $i;
+                break;
+            }
+        }
+        array_splice($lines, $linePos, 6);
+        file_put_contents($file, $lines);
     }
 
     public function run()
@@ -59,13 +79,23 @@ class DatabaseSeeder extends Seeder
         Category::factory()
             ->hasImages(1, function ($attributes, Category $cat) use ($faker) {
                 $imageName = $faker->image($cat->path, 640, 480, null, false);
-                $frontendPath = $cat->path . '/' . $imageName;
+                $frontendPath = $cat->frontendPath . '/' . $imageName;
                 return [
                     "image_path" => $imageName,
                     'frontendPath' => $frontendPath,
                 ];
             })
             ->create(['name' => 'homepage']);
+        Category::factory()
+            ->hasImages(1, function ($attributes, Category $cat) use ($faker) {
+                $imageName = $faker->image($cat->path, 640, 480, null, false);
+                $frontendPath = $cat->frontendPath . '/' . $imageName;
+                return [
+                    "image_path" => $imageName,
+                    'frontendPath' => $frontendPath,
+                ];
+            })
+            ->create(['name' => 'about']);
 
         Category::factory()
             ->has(
@@ -73,6 +103,7 @@ class DatabaseSeeder extends Seeder
                     ->hasImages(4, function ($attributes, Raccolta $racc) use ($faker) {
                         $imageName = $faker->image($racc->path, 640, 480, null, false);
                         $frontendPath = $racc->frontendPath . '/' . $imageName;
+                        Log::info($racc->path);
                         DatabaseSeeder::addToFile($racc->path . '/project.html', '<!--APPEND HERE-->', $frontendPath);
 
                         return [
