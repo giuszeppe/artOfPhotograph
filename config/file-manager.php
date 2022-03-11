@@ -102,8 +102,9 @@ return [
      *
      * Add your middleware name to array -> ['web', 'auth', 'admin']
      * !!!! RESTRICT ACCESS FOR NON ADMIN USERS !!!!
+     * QUI HO TOLTO OPTMIZE VE
      */
-    'middleware' => ['web'],
+    'middleware' => ['web', 'optimizeImages'],
 
     /***************************************************************************
      * ACL mechanism ON/OFF

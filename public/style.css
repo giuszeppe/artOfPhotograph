@@ -48,6 +48,9 @@ Author:		elemis
 	
 -------------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
+:root {
+    --width-image: 640px;
+}
 /*	00. RESET
 /*-----------------------------------------------------------------------------------*/
 *,
@@ -1192,7 +1195,7 @@ figure .link-out:hover {
     height: 500px;
 }
 .swiper .item {
-    height: 100%;
+    /height: 100%;
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
@@ -1242,6 +1245,14 @@ figure .link-out:hover {
 .swiper-wrapper .arrow-left:hover,
 .swiper-wrapper .arrow-right:hover {
     color: rgba(255, 255, 255, 1);
+}
+.yourFluidImage {
+    width: 100%;
+    height: auto;
+}
+
+.swiper-wrapper {
+    height: auto !important;
 }
 /*-----------------------------------------------------------------------------------*/
 /* 	08. CUBE PORTFOLIO
@@ -1352,7 +1363,7 @@ a.cbp-caption:hover .cbp-l-caption-title {
     transform: translate3d(0, 0, 0);
 }
 .cbp-popup-content {
-    background: #f2f5f7;
+    background: transparent;
 }
 .cbp-l-inline {
     padding: 0;
@@ -4418,5 +4429,29 @@ textarea {
 @media (max-width: 991px) {
     div#sticky-filter.sticky-filter.dark-wrapper.container {
         top: 0 !important;
+    }
+}
+.divImmagini {
+    width: 100vw;
+}
+
+@media (min-width: calc(640px * 2)) {
+    .divImmagini {
+        width: 50vw;
+    }
+}
+@media (min-width: calc(640px * 3)) {
+    .divImmagini {
+        width: 33.3vw;
+    }
+}
+@media (min-width: calc(640px * 4)) {
+    .divImmagini {
+        width: 25vw;
+    }
+}
+@media (min-width: calc(640px* 5)) {
+    .divImmagini {
+        width: 20vw;
     }
 }

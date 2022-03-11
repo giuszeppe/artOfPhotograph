@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         $imgName = explode('/', $data);
         $data = '
         <!--REMOVE ' . end($imgName) . '-->' . '
-        <div class="item">
+        <div class="item" style="width:auto; height:550px;">
                 <figure class="frame">
                         <img src="' . $data . '" alt="" />
                 </figure>
@@ -63,7 +63,6 @@ class DatabaseSeeder extends Seeder
         $faker = Faker\Factory::create();
 
         $dirs = Storage::directories('public/');
-        Log::info($dirs);
 
         foreach ($dirs as $dir) {
             Storage::deleteDirectory($dir);
@@ -78,7 +77,7 @@ class DatabaseSeeder extends Seeder
         ]);
         Category::factory()
             ->hasImages(1, function ($attributes, Category $cat) use ($faker) {
-                $imageName = $faker->image($cat->path, 640, 480, null, false);
+                $imageName = $faker->image($cat->path, 640, 425, null, false);
                 $frontendPath = $cat->frontendPath . '/' . $imageName;
                 return [
                     "image_path" => $imageName,
@@ -88,7 +87,7 @@ class DatabaseSeeder extends Seeder
             ->create(['name' => 'homepage']);
         Category::factory()
             ->hasImages(1, function ($attributes, Category $cat) use ($faker) {
-                $imageName = $faker->image($cat->path, 640, 480, null, false);
+                $imageName = $faker->image($cat->path, 640, 425, null, false);
                 $frontendPath = $cat->frontendPath . '/' . $imageName;
                 return [
                     "image_path" => $imageName,
@@ -101,10 +100,8 @@ class DatabaseSeeder extends Seeder
             ->has(
                 Raccolta::factory()->count(3)
                     ->hasImages(4, function ($attributes, Raccolta $racc) use ($faker) {
-                        $imageName = $faker->image($racc->path, 640, 480, null, false);
+                        $imageName = $faker->image($racc->path, 640, 425, null, false);
                         $frontendPath = $racc->frontendPath . '/' . $imageName;
-                        Log::info($racc->path);
-                        DatabaseSeeder::addToFile($racc->path . '/project.html', '<!--APPEND HERE-->', $frontendPath);
 
                         return [
                             "image_path" => $imageName,

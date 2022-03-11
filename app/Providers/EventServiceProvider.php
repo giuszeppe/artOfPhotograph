@@ -54,7 +54,6 @@ class EventServiceProvider extends ServiceProvider
 
             if ($event->path() == '') {
                 Category::factory()->create(['name' => $event->name()]);
-                Log::info('prova');
             } else {
                 $cat = Category::where('name', $event->path())->first();
                 $raccolta = new Raccolta();
@@ -113,6 +112,15 @@ class EventServiceProvider extends ServiceProvider
                         $img = new Image();
                         $img->image_path =  $file['name'];
                         $img->imageable_id =  $cat->id;
+                        $img->frontendPath = $cat->frontendPath . $file['name'];
+                        $img->imageable_type = Category::class;
+                        $img->save();
+                    } else if ($event->path() == 'about') {
+                        $cat = Category::where('name', 'about')->first();
+                        $img = new Image();
+                        $img->image_path =  $file['name'];
+                        $img->frontendPath = $cat->frontendPath . '/' . $file['name'];
+                        $img->imageable_id =  $cat->id;
                         $img->imageable_type = Category::class;
                         $img->save();
                     } else if (count(explode('/', $event->path())) == 1) {
@@ -124,7 +132,6 @@ class EventServiceProvider extends ServiceProvider
                         $img = new Image();
                         $img->image_path =  $file['name'];
                         $img->frontendPath = $racc->frontendPath . '/'  . $file['name'];
-                        DatabaseSeeder::addToFile($racc->frontendPath . '/project.html', '<!--APPEND HERE-->', $img->frontendPath);
                         $img->imageable_id =  $racc->id;
                         $img->imageable_type = Raccolta::class;
                         $img->save();
@@ -158,7 +165,6 @@ class EventServiceProvider extends ServiceProvider
                         //immagine
                         $fileName = end($pathExploded);
                         $image = Image::where('image_path', $fileName)->first();
-                        DatabaseSeeder::removeFromFile($image->imageable->frontendPath . '/project.html', $image);
                         Image::destroy($image->id);
                     }
                 }

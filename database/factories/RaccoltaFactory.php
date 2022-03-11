@@ -31,7 +31,6 @@ class RaccoltaFactory extends Factory
         Storage::makeDirectory($path);
 
 
-        Storage::putFileAs($path, storage_path('app/project_example.html'), 'project.html');
         return ['path' => 'storage/app/public/' . $cat->name . '/' . $titolo, 'frontendPath' => $frontendPath];
     }
 
@@ -45,7 +44,6 @@ class RaccoltaFactory extends Factory
         Storage::makeDirectory($path);
 
 
-        Storage::putFileAs($path, storage_path('app/project_example.html'), 'project.html');
         $path = 'storage/app/public/' . $cat->name . '/' . $this->titolo;
         return [
             'titolo' => $this->titolo,

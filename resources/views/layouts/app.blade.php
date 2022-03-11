@@ -27,6 +27,14 @@
     <script src="style/js/classie.js"></script> 
     <script src="style/js/jquery.themepunch.tools.min.js"></script> 
     <script src="style/js/scripts.js"></script>
+    <?php
+        $category = \App\Models\Category::where([['name', '<>', 'homepage'], ['name', '<>', 'about']])->get('name')->toArray();
+        $catNames = [];
+        foreach ($category as $key => $name) {
+            array_push($catNames,$name['name']);
+        }
+
+    ?>
     @if($includeScripts ?? '')
         <script>
             function updateFilter(filt){
@@ -35,11 +43,12 @@
                 document.querySelectorAll(`[data-filter='${filt}']`)[0].classList.add('cbp-filter-item-active');
                 $("#js-grid-full-width").cubeportfolio('filter', filt);
             }
-
-            @if(in_array(request()->get('filt'),array('matrimoni','battesimi','aziendale','*')))
+            
+            @if(in_array(request()->get('filt'),$catNames))
             window.onload = ()=>{
-                console.log("{{request()->get('filt')}}")
-                updateFilter('.' + "{{request()->get('filt')}}");
+                setTimeout(() => {
+                    updateFilter('.' + "{{request()->get('filt')}}"); 
+                }, 500);
             }
             @endif
             </script>
