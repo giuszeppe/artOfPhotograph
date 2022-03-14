@@ -46,7 +46,6 @@ Route::view('fileManager', 'auth.images.fileManager');
 
 
 
-/*Route::fallback(function () {
+Route::fallback(function () {
     return redirect('home');
 });
-*/
