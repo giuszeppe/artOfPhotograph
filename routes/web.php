@@ -41,7 +41,7 @@ Auth::routes();
 Route::group(['middleware' => 'auth:web', 'prefix' => 'admin'], function () {
     Route::get('images', [ImageController::class, 'index']);
 });
-Route::view('fileManager', 'auth.images.fileManager');
+Route::view('fileManager', 'auth.images.fileManager')->middleware(['auth']);
 
 
 

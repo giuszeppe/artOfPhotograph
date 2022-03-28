@@ -29,9 +29,6 @@
           <div data-filter=".{{$cat->name}}" class="cbp-filter-item"> {{$cat->name}} </div>
         @endforeach
         <div data-filter="*" class="cbp-filter-item-active cbp-filter-item"> All </div>
-        <div data-filter=".matrimoni" class="cbp-filter-item"> Matrimoni </div>
-        <div data-filter=".battesimi" class="cbp-filter-item"> Battesimi</div>
-        <div data-filter=".aziendale" class="cbp-filter-item"> Foto Aziendali </div>
       </div>
       
       <div id="js-grid-full-width" class="cbp">

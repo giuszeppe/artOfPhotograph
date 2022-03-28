@@ -180,7 +180,7 @@ $(document).ready(function () {
         filters: "#js-filters-full-width",
         loadMore: "#js-grid-full-width-more",
         loadMoreAction: "click",
-        layoutMode: "mosaic",
+        layoutMode: "grid",
         sortToPreventGaps: true,
         defaultFilter: "*",
         animationType: "quicksand",
