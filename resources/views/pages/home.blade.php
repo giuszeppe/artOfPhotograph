@@ -4,7 +4,10 @@
   <div class="tp-fullscreen-container revolution">
     <div class="tp-fullscreen">
       <ul>
-        <li data-transition="fade"> <img src="style/images/sposaBlackAndWhite.jpg"  alt="" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat" />
+        @foreach ($images as $image)
+        <li data-transition="fade"> <img src="{{'storage/' . $image->imageable->name . '/' . $image->image_path}}"  alt="" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat" />
+            
+        @endforeach
          <!-- <h1 class="tp-caption large sfr" data-x="30" data-y="263" data-speed="900" data-start="800" data-easing="Sine.easeOut">hello! this is lydia</h1>
           <div class="tp-caption medium sfr" data-x="30" data-y="348" data-speed="900" data-start="1500" data-easing="Sine.easeOut">most completed photography & <br />
             magazine template with various options</div> -->
@@ -24,6 +27,6 @@
   </div>
   <!-- /.revolution -->
   @include('partials.specialities')
-  @include('partials.about')
+  @include('partials.about', ['about' => $about ?? ''])
     
 @endsection

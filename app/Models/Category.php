@@ -9,6 +9,8 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name'];
+
     public function images()
     {
         return $this->morphMany(Image::class, 'imageable');
@@ -16,5 +18,15 @@ class Category extends Model
     public function raccolte()
     {
         return $this->hasMany(Raccolta::class);
+    }
+
+    public function delete()
+    {
+
+        $relations = $this->raccolte;
+        $relations->each(function ($racc) {
+            $racc->delete();
+        });
+        $res = parent::delete();
     }
 }

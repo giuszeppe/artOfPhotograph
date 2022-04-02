@@ -2,7 +2,7 @@
   <div class="dark-wrapper">
     <div class="col-image">
       <div class="bg-wrapper col-md-6">
-        <div class="bg-holder" style="background-image: url(style/images/aboutPic.jpg);"></div>
+        <div class="bg-holder" style="background-image: url({{$about[0]->frontendPath ?? 'storage/default.png'}});"></div>
       </div>
       <!--/.bg-wrapper -->
       <div class="container">

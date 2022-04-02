@@ -17,7 +17,8 @@ class ImageController extends Controller
     {
         $categories = Category::with(['raccolte:id,category_id', 'raccolte', 'raccolte.images'])->where('name', '<>', 'homepage')->get();
         $homepage = Category::where('name', 'homepage')->first()->images;
-        return view('auth.images.index', ['homepage' => $homepage, 'categories' => $categories]);
+        $about = Category::where('name', 'about')->first()->images;
+        return view('auth.images.index', ['homepage' => $homepage, 'categories' => $categories, 'about' => $about]);
     }
 
     /**

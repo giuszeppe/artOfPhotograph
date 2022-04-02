@@ -1,0 +1,5 @@
+# adds a Postgres 9.6 service to your project
+# and gives it about a gigabyte of disk space
+pgsql:
+  type: postgresql:9.6
+  disk: 1024

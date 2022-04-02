@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ImageController;
+use App\Models\Category;
+use App\Models\Raccolta;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -17,13 +19,18 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/home', function () {
-    return view('pages.home');
+    $about = Category::where('name', 'about')->first()->images;
+    $cat = Category::where('name', 'homepage')->with('images')->first();
+    return view('pages.home', ['images' => $cat->images, 'about' => $about]);
 })->name('home');
 Route::get('/about', function () {
-    return view('pages.about');
+    $about = Category::where('name', 'about')->first()->images;
+    return view('pages.about', compact('about'));
 })->name('about');
 Route::get('/gallery', function () {
-    return view('pages.gallery');
+    $categories = Category::where('name', '<>', 'homepage')->where('name', '<>', 'about')->get();
+    $raccolte = Raccolta::all();
+    return view('pages.gallery', compact(['categories', 'raccolte']));
 })->name('gallery');
 Route::get('/contact', function () {
     return view('pages.contact');
@@ -35,6 +42,7 @@ Auth::routes();
 Route::group(['middleware' => 'auth:web', 'prefix' => 'admin'], function () {
     Route::get('images', [ImageController::class, 'index']);
 });
+Route::view('fileManager', 'auth.images.fileManager')->middleware(['auth']);
 
 
 

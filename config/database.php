@@ -2,6 +2,18 @@
 
 use Illuminate\Support\Str;
 
+// config/database.php
+$config = new Platformsh\ConfigReader\Config();
+if ($config->isValidPlatform()){
+    $pltrels = $config->relationships;
+    $database = $pltrels['database'][0];
+    putenv("DB_CONNECTION={$database['scheme']}");
+    putenv("DB_HOST={$database['host']}");
+    putenv("DB_PORT={$database['port']}");
+    putenv("DB_DATABASE={$database['path']}");
+    putenv("DB_USERNAME={$database['username']}");
+    putenv("DB_PASSWORD={$database['password']}");
+}
 $DATABASE_URL = parse_url('postgres://fzwjhckncmqaxx:c48e3754432cfb1a53ba844e75b39e4f0cab0b650c25f1510b81eb9fe72baa52@ec2-54-228-9-90.eu-west-1.compute.amazonaws.com:5432/dcqh514hrpdomv');
 return [
 

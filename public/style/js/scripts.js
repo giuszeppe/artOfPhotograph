@@ -175,11 +175,12 @@ $(document).ready(function () {
                 });
         },
     });
+    const widthImage = 640;
     $("#js-grid-full-width").cubeportfolio({
         filters: "#js-filters-full-width",
         loadMore: "#js-grid-full-width-more",
         loadMoreAction: "click",
-        layoutMode: "mosaic",
+        layoutMode: "grid",
         sortToPreventGaps: true,
         defaultFilter: "*",
         animationType: "quicksand",
@@ -188,27 +189,27 @@ $(document).ready(function () {
         gridAdjustment: "responsive",
         mediaQueries: [
             {
-                width: 2560,
+                width: widthImage * 6,
                 cols: 6,
             },
             {
-                width: 1920,
+                width: widthImage * 5,
                 cols: 5,
             },
             {
-                width: 1450,
+                width: widthImage * 4,
                 cols: 4,
             },
             {
-                width: 1024,
+                width: widthImage * 3,
                 cols: 3,
             },
             {
-                width: 768,
+                width: widthImage * 2,
                 cols: 2,
             },
             {
-                width: 650,
+                width: widthImage,
                 cols: 1,
             },
         ],
@@ -393,6 +394,7 @@ $(document).ready(function () {
             grabCursor: true,
             slidesPerView: "auto",
             wrapperClass: "swiper",
+            calculateHeight: "true",
             slideClass: "item",
             offsetPxBefore: 0,
             offsetPxAfter: 0,
