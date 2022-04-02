@@ -19,8 +19,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/home', function () {
+    $about = Category::where('name', 'about')->first()->images;
     $cat = Category::where('name', 'homepage')->with('images')->first();
-    return view('pages.home', ['images' => $cat->images]);
+    return view('pages.home', ['images' => $cat->images, 'about' => $about]);
 })->name('home');
 Route::get('/about', function () {
     $about = Category::where('name', 'about')->first()->images;

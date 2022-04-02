@@ -27,6 +27,6 @@
   </div>
   <!-- /.revolution -->
   @include('partials.specialities')
-  @include('partials.about')
+  @include('partials.about', ['about' => $about ?? ''])
     
 @endsection
