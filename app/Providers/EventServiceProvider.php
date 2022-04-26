@@ -12,6 +12,19 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
+    
+function isRootDir(string|null $path){
+        return $path === null;
+}
+function isCategoryDir(string $path){
+    return count(explode('/',$path)) == 1;
+}
+function isSpecialCategory(string $category){
+    return in_array($category,config('path.specialCategory')); 
+}
+function isDirectoryTooNested(string $path){
+    return count(explode('/',$path)) > 2;
+}
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -25,6 +38,10 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
     ];
+
+
+
+
 
     /**
      * Register any events for your application.
@@ -44,6 +61,20 @@ class EventServiceProvider extends ServiceProvider
                 if (count(explode('/', $event->path())) >= 2) {
                     abort(401, 'Azione non permessa');
                 }
+                $path = $event->path();
+                Log::info($event->path());
+                if (isRootDir($path)) {
+                    Category::factory()->create(['name' => $event->name()]);
+                } else {
+                    $cat = Category::where('name', $path)->first();
+                    $paths = RaccoltaFactory::createPaths($cat, $event->name());
+                    Raccolta::create([
+                        'titolo' => $event->name(),
+                        'category_id' => $cat->id,
+                        'path' => $paths['path'],
+                        'frontendPath' => $paths['frontendPath']
+                    ]);
+                }
             }
         );
 
@@ -51,44 +82,49 @@ class EventServiceProvider extends ServiceProvider
 
 
         Event::listen('Alexusmai\LaravelFileManager\Events\DirectoryCreated', function ($event) {
-
-            if ($event->path() == '') {
+            /*$path = $event->path();
+            Log::info($event->path());
+            if (isRootDir($path)) {
                 Category::factory()->create(['name' => $event->name()]);
             } else {
-                $cat = Category::where('name', $event->path())->first();
-                $raccolta = new Raccolta();
-                $raccolta->titolo = $event->name();
-                $raccolta->category_id = $cat->id;
-                $paths = RaccoltaFactory::createRaccolta($cat, $event->name());
-                $raccolta->path = $paths['path'];
-                $raccolta->frontendPath = $paths['frontendPath'];
-                $raccolta->save();
-            }
+                $cat = Category::where('name', $path)->first();
+                $paths = RaccoltaFactory::createPaths($cat, $event->name());
+                Raccolta::create([
+                    'titolo' => $event->name(),
+                    'category_id' => $cat->id,
+                    'path' => $paths['path'],
+                    'frontendPath' => $paths['frontendPath']
+                ]);
+            }*/
         });
         Event::listen(
             'Alexusmai\LaravelFileManager\Events\FileCreating',
             function ($event) {
+
+                $path = $event->path();
+
+
                 Log::info('FileCreating:', [
                     $event->disk(),
                     $event->path(),
                     $event->name(), storage_path() . $event->path() . $event->name()
                 ]);
 
-                if ($event->path() == '') {
+                if (isRootDir($path)) {
                     $cat = Category::where('name', 'homepage')->first();
-                    $img = new Image();
-                    $img->image_path =  $event->path() . '/' . $event->name();
-                    $img->imageable_id =  $cat->id;
-                    $img->imageable_type = Category::class;
-                    $img->save();
-                } else if (count(explode('/', $event->path())) == 1) {
+                    $cat->images()->create([
+                        'image_path' => $path . '/' . $event->name(),
+                    ]);
+
+                } else if (isCategoryDir($path)) {
                     abort(401, 'Non puoi creare file dentro alle category, solo aggiungere raccolte.');
-                } else if (count(explode('/', $event->path())) > 2) {
+                } else if (isDirectoryTooNested($path)) {
                     abort(401, 'Azione non permessa.');
                 } else {
-                    $racc = Raccolta::where('titolo', explode('/', $event->path())[1])->first();
+                    $racc = Raccolta::where('titolo', explode('/', $path)[1])->first();
+                    
                     $img = new Image();
-                    $img->image_path =  $event->path() . '/' . $event->name();
+                    $img->image_path =  $path . '/' . $event->name();
                     $img->imageable_id =  $racc->id;
                     $img->imageable_type = Raccolta::class;
                     $img->save();
@@ -104,37 +140,32 @@ class EventServiceProvider extends ServiceProvider
                     $event->files(),
                     $event->overwrite(),
                 ]);
+                $path = $event->path();
 
                 foreach ($event->files() as $file) {
 
-                    if ($event->path() == 'homepage') {
+                    if ($path == 'homepage') {
                         $cat = Category::where('name', 'homepage')->first();
-                        $img = new Image();
-                        $img->image_path =  $file['name'];
-                        $img->imageable_id =  $cat->id;
-                        $img->frontendPath = $cat->frontendPath . $file['name'];
-                        $img->imageable_type = Category::class;
-                        $img->save();
-                    } else if ($event->path() == 'about') {
+                        $cat->images()->create([
+                            'frontendPath' => $cat->frontendPath . $file['name'],
+                            'image_path' => $file['name']
+                        ]);
+                    } else if ($path == 'about') {
                         $cat = Category::where('name', 'about')->first();
-                        $img = new Image();
-                        $img->image_path =  $file['name'];
-                        $img->frontendPath = $cat->frontendPath . '/' . $file['name'];
-                        $img->imageable_id =  $cat->id;
-                        $img->imageable_type = Category::class;
-                        $img->save();
-                    } else if (count(explode('/', $event->path())) == 1) {
+                        $cat->images()->create([
+                            'frontendPath' => $cat->frontendPath . $file['name'],
+                            'image_path' => $file['name']
+                        ]);
+                    } else if (isCategoryDir($path)) {
                         abort(401, 'Non puoi creare file dentro alle category, solo aggiungere raccolte.');
-                    } else if (count(explode('/', $event->path())) > 2) {
+                    } else if (isDirectoryTooNested($path)) {
                         abort(401, 'Azione non permessa.');
                     } else {
-                        $racc = Raccolta::where('titolo', explode('/', $event->path())[1])->first();
-                        $img = new Image();
-                        $img->image_path =  $file['name'];
-                        $img->frontendPath = $racc->frontendPath . '/'  . $file['name'];
-                        $img->imageable_id =  $racc->id;
-                        $img->imageable_type = Raccolta::class;
-                        $img->save();
+                        $racc = Raccolta::where('titolo', explode('/', $path)[1])->first();
+                        $racc->images()->create([
+                            'frontendPath' => $racc->frontendPath . $file['name'],
+                            'image_path' => $file['name']
+                        ]);
                     }
                 }
             }
@@ -153,12 +184,12 @@ class EventServiceProvider extends ServiceProvider
                     $pathExploded = explode('/', $path);
 
                     if ($item['type'] == 'dir') {
-                        if ($pathExploded[0] == 'homepage' || $pathExploded[0] == 'about') {
+                        if (isSpecialCategory($pathExploded[0])) {
                             abort(401, 'Azione non permessa');
-                        } else if (count($pathExploded) == 1) {
+                        } else if (isCategoryDir($path)) {
                             Category::where('name', $path)->first()->delete();
-                            //raccolta
                         } else {
+                            //raccolta
                             Raccolta::where('titolo', end($pathExploded))->first()->delete();
                         }
                     } else {

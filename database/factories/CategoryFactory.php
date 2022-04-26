@@ -26,8 +26,9 @@ class CategoryFactory extends Factory
     public function configure()
     {
         return $this->afterMaking(function (Category $cat) {
-            $cat->path = 'storage/app/public/' . $cat->name;
-            $cat->frontendPath = 'storage/' . $cat->name;
+            $cat->path = config('path.pathPrefix') . $cat->name;
+            $cat->frontendPath = config('path.frontendPrefix') . $cat->name;
+            
             Storage::makeDirectory('public/' . $cat->name);
         });
     }

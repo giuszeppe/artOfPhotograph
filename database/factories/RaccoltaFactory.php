@@ -23,7 +23,7 @@ class RaccoltaFactory extends Factory
         $this->titolo = $this->faker->word();
     }
 
-    public static function createRaccolta($cat, $titolo)
+    public static function createPaths($cat, $titolo)
     {
         $path = 'public/' . $cat->name . '/' . $titolo;
         $frontendPath = 'storage/' . $cat->name . '/' . $titolo;
@@ -39,7 +39,7 @@ class RaccoltaFactory extends Factory
         $this->titolo = $this->faker->word();
         $cat = Category::orderByDesc('id')->first();
         $path = 'public/' . $cat->name . '/' . $this->titolo;
-        $frontendPath = 'storage/' . $cat->name . '/' . $this->titolo;
+        $frontendPath = 'storage/' . $cat->name . '/' . $this->titolo . '/';
 
         Storage::makeDirectory($path);
 
