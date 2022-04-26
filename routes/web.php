@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Models\Category;
 use App\Models\Raccolta;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -18,23 +20,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/home', function () {
-    $about = Category::where('name', 'about')->first()->images;
-    $cat = Category::where('name', 'homepage')->with('images')->first();
-    return view('pages.home', ['images' => $cat->images, 'about' => $about]);
-})->name('home');
-Route::get('/about', function () {
-    $about = Category::where('name', 'about')->first()->images;
-    return view('pages.about', compact('about'));
-})->name('about');
-Route::get('/gallery', function () {
-    $categories = Category::where('name', '<>', 'homepage')->where('name', '<>', 'about')->get();
-    $raccolte = Raccolta::all();
-    return view('pages.gallery', compact(['categories', 'raccolte']));
-})->name('gallery');
-Route::get('/contact', function () {
-    return view('pages.contact');
-})->name('contact');
+Route::get('/home', [HomeController::class,'home'])->name('home');
+Route::get('/about', [HomeController::class,'about'])->name('about');
+Route::get('/gallery',[HomeController::class,'gallery'])->name('gallery');
+Route::get('/contact', [HomeController::class,'contact'])->name('contact');
+Route::get('/services', [HomeController::class,'services'])->name('services');
 
 
 Auth::routes();
