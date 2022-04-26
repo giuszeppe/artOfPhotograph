@@ -23,10 +23,11 @@
       </ul>
       <div class="tp-bannertimer tp-bottom"></div>
     </div>
-    <!-- /.tp-fullscreen-container --> 
+    <!-- /.tp-fullscreen-container --> s
   </div>
   <!-- /.revolution -->
   @include('partials.specialities')
   @include('partials.about', ['about' => $about ?? ''])
+  @include('partials.faq')
     
 @endsection

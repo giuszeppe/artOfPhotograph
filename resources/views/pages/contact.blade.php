@@ -8,7 +8,7 @@ src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJp_gYPI6iLhMRP1jnD
     <div class="container inner">
       <div class="row">
         <div class="col-sm-8">
-          <h2 class="section-title">Contattaci!</h2>
+          <h2 class="section-title">{{ __("contacts.contact") }}</h2>
           <p>Nullam quis risus eget urna mollis ornare vel eu leo. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Maecenas faucibus.</p>
           <div class="divide10"></div>
           <div class="form-container">
@@ -35,7 +35,7 @@ src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJp_gYPI6iLhMRP1jnD
                 <div class="col-sm-6">
                   <div class="form-field">
                     <label>
-                      <input type="tel" name="tel" placeholder="Telefono">
+                      <input type="tel" name="tel" placeholder="{{ __("contacts.phone") }}">
                     </label>
                   </div>
                   <!--/.form-field --> 
@@ -45,11 +45,11 @@ src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJp_gYPI6iLhMRP1jnD
                   <div class="form-field">
                     <label class="custom-select">
                       <select name="department" required="required">
-                        <option value="">Matrimonio</option>
-                        <option value="Sales">Battesimo</option>
+                        <option value="">{{ __("services.weddings") }}</option>
+                        <option value="Sales">{{ __("services.baptismo") }}</option>
                         <option value="Marketing">Film</option>
                         <option value="Support">Book</option>
-                        <option value="Other">Other</option>
+                        <option value="Other">{{ __("services.other") }}</option>
                       </select>
                       <span><!-- fake select handler --></span> </label>
                   </div>
@@ -58,9 +58,9 @@ src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJp_gYPI6iLhMRP1jnD
                 <!--/column --> 
               </div>
               <!--/.row -->
-              <textarea name="message" placeholder="Scrivi il tuo messaggio qui!" required="required"></textarea>
+              <textarea name="message" placeholder="{{ __("contacts.write_here") }}" required="required"></textarea>
               <!--/.radio-set -->
-              <input type="submit" class="btn" value="Invia" data-error="Aggiusta gli errori" data-processing="Invio..." data-success="Grazie!">
+              <input type="submit" class="btn" value="Invia" data-error="{{ __("contacts.fix_errors") }}" data-processing="{{ __("contacts.send") }}" data-success="{{ __("contacts.thanks") }}">
               <footer class="notification-box"></footer>
             </form>
             <!--/.vanilla-form --> 
@@ -72,7 +72,7 @@ src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJp_gYPI6iLhMRP1jnD
         
         <aside class="col-sm-4">
           <div class="sidebox widget">
-            <h3 class="widget-title">Indirizzo</h3>
+            <h3 class="widget-title">{{ __("contacts.address") }}</h3>
             <p>Fusce dapibus, tellus commodo, tortor mauris condimentum utellus fermentum, porta sem malesuada magna. Sed posuere consectetur est at lobortis. Morbi leo risus, porta ac consectetur.</p>
             <address>
             <strong>Art of photography</strong><br>

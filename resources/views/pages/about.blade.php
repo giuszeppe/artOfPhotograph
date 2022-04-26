@@ -52,7 +52,7 @@
         <div class="text-div">
             <p>
                 <h1>Andrea Barcaccia</h1>
-                <h6>Fotografo professionista</h6>
+                <h6>{{ __("about.role") }}</h6>
             </p>
             <div>
                 <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur assumenda repellendus aut molestiae itaque eaque explicabo perferendis, deserunt praesentium reiciendis velit maxime a placeat nemo labore? Quidem quae mollitia voluptate?</p>

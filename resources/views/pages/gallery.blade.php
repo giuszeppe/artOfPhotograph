@@ -28,7 +28,7 @@
         @foreach ($categories as $cat)
           <div data-filter=".{{$cat->name}}" class="cbp-filter-item"> {{$cat->name}} </div>
         @endforeach
-        <div data-filter="*" class="cbp-filter-item-active cbp-filter-item"> All </div>
+        <div data-filter="*" class="cbp-filter-item-active cbp-filter-item"> {{ __("gallery.all") }} </div>
       </div>
       
       <div id="js-grid-full-width" class="cbp">

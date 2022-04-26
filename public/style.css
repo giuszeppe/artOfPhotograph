@@ -683,7 +683,7 @@ footer ul.circled li:before {
     height: 90px;
     background: transparent;
     transition: all 0.3s;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Zilla Slab", serif;
 }
 .container > .navbar-header {
     margin-left: 0 !important;
@@ -4052,6 +4052,10 @@ textarea {
 /*	31. RESPONSIVE
 /*-----------------------------------------------------------------------------------*/
 @media (min-width: 992px) {
+    /*.navbar-logo{
+        width: 148px;
+        height:25px;
+    }*/
     .navbar {
         display: table;
         padding: 0 40px;

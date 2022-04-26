@@ -1,7 +1,10 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@300&display=swap" rel="stylesheet">
   <nav class="navbar {{$navOpt}}">
     <div class="navbar-header">
       <div class="basic-wrapper"> 
-        <div class="navbar-brand"> <ul class="nav navbar-nav"> <li> <a href="{{route('home')}}" class="">ANDREA BARCACCIA | ART OF PHOTOGRAPHY</a></li> </ul> </div>
+        <div class="navbar-brand"> <ul class="nav navbar-nav"> <li> <a href="{{route('home')}}" class=""><img class="navbar-logo" style="width:296px;height:55px;"src="{{ asset('style/images/logo_white.png')}}"></a></li> </ul> </div>
         <a class="btn responsive-menu" data-toggle="collapse" data-target=".navbar-collapse"><i></i></a>
       </div>
       <!-- /.basic-wrapper -->  
@@ -10,9 +13,11 @@
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
         <li><a href="{{route('home')}}">Home</a></li>
-        <li><a href="{{route('about')}}">Chi Sono</a></li>
-        <li><a href="{{route('gallery')}}">Galleria</a></li>
-        <li><a href="{{route('contact')}}">Contatti</a></li>
+        <li><a href="{{route('about')}}">{{__("about.title")}}</a></li>
+        <li><a href="{{route('gallery')}}">{{__("gallery.title")}}</a></li>
+        <li><a href="{{route('services')}}">{{__('services.title_navbar')}}</a></li>
+        <li><a href="{{route('contact')}}">{{__('contacts.title')}}</a></li>
+        <li><a href="https://www.anfm.it/">{{"ANFM"}}</a></li>
       </ul>
       <!-- /.navbar-nav --> 
     </div>
