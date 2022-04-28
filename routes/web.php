@@ -25,6 +25,8 @@ Route::get('/about', [HomeController::class,'about'])->name('about');
 Route::get('/gallery',[HomeController::class,'gallery'])->name('gallery');
 Route::get('/contact', [HomeController::class,'contact'])->name('contact');
 Route::get('/services', [HomeController::class,'services'])->name('services');
+Route::get('/films', [HomeController::class,'film'])->name('film');
+
 
 
 Auth::routes();

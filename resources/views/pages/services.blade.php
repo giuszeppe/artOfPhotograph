@@ -25,7 +25,7 @@
                 <div class="service-text service-left">
                     <h3 class="section-title text-left">{{__('services.film.title')}}</h3>
                     <p>{{__('services.film.description')}}</p>
-                    <a href="#" class="btn">Scopri di più</a>
+                    <a href="{{route('film')}}" class="btn">Scopri di più</a>
                 </div>
             </div>
         </div>

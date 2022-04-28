@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Film;
 use App\Models\Raccolta;
 use Illuminate\Http\Request;
 
@@ -38,5 +39,10 @@ class HomeController extends Controller
     public function services()
     {   
         return view('pages.services');    
+    }
+    public function film()
+    {   
+        $films = Film::all();
+        return view('pages.films',compact('films'));    
     }
 }

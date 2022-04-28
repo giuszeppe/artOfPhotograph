@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Image;
+use App\Models\Film;
 use App\Models\Raccolta;
 use App\Models\User;
 use Faker;
@@ -63,10 +64,15 @@ class DatabaseSeeder extends Seeder
         $faker = Faker\Factory::create();
 
         $dirs = Storage::directories('public/');
+        
 
         foreach ($dirs as $dir) {
+            if(str_contains($dir,'video')){
+                continue;
+            }
             Storage::deleteDirectory($dir);
         }
+        Film::factory()->count(3)->create();
 
 
         File::cleanDirectory(public_path('images'));

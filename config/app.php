@@ -1,12 +1,12 @@
 <?php
 
 
-$config = new \Platformsh\ConfigReader\Config();
-if($config->isValidPlatform()){
-    foreach($config->variables as $k => $v) {
-        putenv("$k=$v");
-    }
-}
+// $config = new \Platformsh\ConfigReader\Config();
+// if($config->isValidPlatform()){
+//     foreach($config->variables as $k => $v) {
+//         putenv("$k=$v");
+//     }
+// }
 
 return [
 

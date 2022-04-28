@@ -40,7 +40,7 @@
     border-radius:5px;
 }
 @media screen and (max-width:600px) {
-    .service-section
+    .service-section{
         flex-direction: column;
         height:fit-content;
     }
