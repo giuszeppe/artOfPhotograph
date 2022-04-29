@@ -72,6 +72,9 @@ class DatabaseSeeder extends Seeder
             }
             Storage::deleteDirectory($dir);
         }
+        if(Storage::exists('public/video') == false){
+            Storage::makeDirectory('public/video');
+        }
         Film::factory()->count(3)->create();
 
 

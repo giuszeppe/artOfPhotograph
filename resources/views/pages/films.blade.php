@@ -119,6 +119,7 @@
     font-size: 20px;
 
 </style>
+
 <div class="offset"></div>
 <div id="menu-btn" class="fas fa-bars"></div>
 
@@ -130,14 +131,6 @@
             @foreach($films as $film)
               <li data-src="storage/{{$film->video_path}}">{{$film->title}}</li>
             @endforeach
-            <li class="active" data-src="images/vid-1.mp4">cheese burger</li>
-            <li data-src="images/vid-2.mp4">pizza decoration</li>
-            <li data-src="images/vid-3.mp4">sandwich decoration</li>
-            <li data-src="images/vid-4.mp4">puring coffee</li>
-            <li data-src="images/vid-5.mp4">chocolate closeup</li>
-            <li data-src="images/vid-6.mp4">slicing cake</li>
-            <li data-src="images/vid-7.mp4">donuts zooming</li>
-            <li data-src="images/vid-8.mp4">instead noodles</li>
         </ul>
 
     </div>
