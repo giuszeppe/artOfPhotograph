@@ -18,6 +18,7 @@
         <li><a href="{{route('services')}}">{{__('services.title_navbar')}}</a></li>
         <li><a href="{{route('contact')}}">{{__('contacts.title')}}</a></li>
         <li><a href="https://www.anfm.it/">{{"ANFM"}}</a></li>
+        <li class="language-wrapper"><a href="{{route('switchLocale',['locale' => App::getLocale() == 'it' ? 'en' : 'it'])}}">{{App::getLocale() == 'it' ? 'en' : 'it'}}</a></li>
       </ul>
       <!-- /.navbar-nav --> 
     </div>

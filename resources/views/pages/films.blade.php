@@ -4,7 +4,8 @@
 <style>
 
 .film-container{
-  min-height: 100vh;
+  max-height: 90vh;
+  height:90vh;
   display: flex;
   align-items: center;
   padding:0 10%;
@@ -62,7 +63,7 @@
 }
 
 .film-container .video-container video{
-  height:700px;
+  height:70vh;
   width: 100%;
   object-fit: cover;
 }
@@ -77,21 +78,21 @@
 
 @media (max-width:1200px){
   .film-container{
+    flex-direction: column;
+  }
+  .film-container{
     position: relative;
   }
 
   .film-container .side-bar{
-    position: absolute;
-    top:0; left:-110%;
-    height: 100%;
-    background-color: #fff;
-    z-index: 10;
-    padding:30px;
+    width:100%;
+    margin : 20px 0px;
   }
 
   .film-container .side-bar .list{
     height: 100%;
-    justify-content: center;
+    justify-content: space-evenly;
+    flex-direction: row;
   }
 
   .film-container .side-bar.active{
@@ -117,6 +118,8 @@
 
   .film-container .side-bar .list li.active{
     font-size: 20px;
+  }
+}
 
 </style>
 <div class="offset"></div>
@@ -128,16 +131,8 @@
 
         <ul class="list">
             @foreach($films as $film)
-              <li data-src="storage/{{$film->video_path}}">{{$film->title}}</li>
+              <li class="list-item" data-src="storage/{{$film->video_path}}">{{$film->title}}</li>
             @endforeach
-            <li class="active" data-src="images/vid-1.mp4">cheese burger</li>
-            <li data-src="images/vid-2.mp4">pizza decoration</li>
-            <li data-src="images/vid-3.mp4">sandwich decoration</li>
-            <li data-src="images/vid-4.mp4">puring coffee</li>
-            <li data-src="images/vid-5.mp4">chocolate closeup</li>
-            <li data-src="images/vid-6.mp4">slicing cake</li>
-            <li data-src="images/vid-7.mp4">donuts zooming</li>
-            <li data-src="images/vid-8.mp4">instead noodles</li>
         </ul>
 
     </div>

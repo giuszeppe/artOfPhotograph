@@ -7,6 +7,7 @@ use App\Models\Raccolta;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,12 +21,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/home', [HomeController::class,'home'])->name('home');
-Route::get('/about', [HomeController::class,'about'])->name('about');
-Route::get('/gallery',[HomeController::class,'gallery'])->name('gallery');
-Route::get('/contact', [HomeController::class,'contact'])->name('contact');
-Route::get('/services', [HomeController::class,'services'])->name('services');
-Route::get('/films', [HomeController::class,'film'])->name('film');
+Route::get('/home', [HomeController::class, 'home'])->name('home');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/gallery', [HomeController::class, 'gallery'])->name('gallery');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/services', [HomeController::class, 'services'])->name('services');
+Route::get('/films', [HomeController::class, 'film'])->name('film');
+Route::get('/switchLocale/{locale}', function ($locale) {
+    App::setLocale($locale);
+    session()->put('locale', $locale);
+    return redirect()->back();
+})->name('switchLocale');
 
 
 
