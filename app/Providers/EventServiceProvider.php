@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\Film;
 use App\Models\Image;
 use App\Models\Raccolta;
 use Database\Factories\RaccoltaFactory;
@@ -115,6 +116,7 @@ class EventServiceProvider extends ServiceProvider
                     $cat->images()->create([
                         'image_path' => $path . '/' . $event->name(),
                     ]);
+                
 
                 } else if (isCategoryDir($path)) {
                     abort(401, 'Non puoi creare file dentro alle category, solo aggiungere raccolte.');
@@ -143,8 +145,12 @@ class EventServiceProvider extends ServiceProvider
                 $path = $event->path();
 
                 foreach ($event->files() as $file) {
-
-                    if ($path == 'homepage') {
+                    if($path == 'video'){
+                            Film::create([
+                                    'title' => $file['name'],
+                                    'video_path' => 'video/' . $file['name']
+                            ]); 
+                    }else if ($path == 'homepage') {
                         $cat = Category::where('name', 'homepage')->first();
                         $cat->images()->create([
                             'frontendPath' => $cat->frontendPath . $file['name'],
@@ -193,10 +199,18 @@ class EventServiceProvider extends ServiceProvider
                             Raccolta::where('titolo', end($pathExploded))->first()->delete();
                         }
                     } else {
+
                         //immagine
                         $fileName = end($pathExploded);
-                        $image = Image::where('image_path', $fileName)->first();
-                        Image::destroy($image->id);
+                        $fileDir =  $pathExploded[0];
+                        //video
+                        if($fileDir == 'video'){
+                            $film = Film::where('title', $fileName)->first();
+                            Film::destroy($film->id);
+                        } else{
+                            $image = Image::where('image_path', $fileName)->first();
+                            Image::destroy($image->id);
+                        }
                     }
                 }
             }
