@@ -680,7 +680,7 @@ footer ul.circled li:before {
     height: 90px;
     background: transparent;  
     transition: all 0.3s;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Lato', sans-serif;
 }
 .container>.navbar-header {
     margin-left: 0 !important;

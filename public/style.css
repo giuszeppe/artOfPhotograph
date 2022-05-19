@@ -683,7 +683,7 @@ footer ul.circled li:before {
     height: 90px;
     background: transparent;
     transition: all 0.3s;
-    font-family: "Zilla Slab", serif;
+    font-family: "Lato", serif;
 }
 .container > .navbar-header {
     margin-left: 0 !important;

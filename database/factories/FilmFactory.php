@@ -15,7 +15,7 @@ class FilmFactory extends Factory
     {
         return [
             'video_path' => 'video/VID_20220124_071125.mp4',
-            'title' => $this->faker->title()
+            'title' => "Storia di antonio"
             //
         ];
     }

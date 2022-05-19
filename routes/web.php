@@ -27,8 +27,8 @@ Route::get('/gallery', [HomeController::class, 'gallery'])->name('gallery');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/services', [HomeController::class, 'services'])->name('services');
 Route::get('/films', [HomeController::class, 'film'])->name('film');
-Route::get('/switchLocale/{locale}', function ($locale) {
-    App::setLocale($locale);
+Route::get('switchLocale/{locale}', function ($locale) {
+    app()->setLocale($locale);
     session()->put('locale', $locale);
     return redirect()->back();
 })->name('switchLocale');
@@ -45,6 +45,6 @@ Route::view('fileManager', 'auth.images.fileManager')->middleware(['auth']);
 
 
 
-Route::fallback(function () {
+/*Route::fallback(function () {
     return redirect('home');
-});
+});*/
