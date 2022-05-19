@@ -62,7 +62,7 @@
             </div>
         </div>
         <div>
-            <img src="{{$about[0]->frontendPath ?? 'storage/default.png'}}" alt="" style="width:292px;height: 400px;">
+            <img src="{{'storage/media/about_pic.jpg' ?? 'storage/default.png'}}" alt="" style="width:292px;height: 400px;">
         </div>
     </div>
 @endsection
