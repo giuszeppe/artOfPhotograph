@@ -15,7 +15,7 @@
 
           <ul class="list">
               @foreach($films as $film)
-                <li class="list-item @if($loop->first) active @endif" data-src="storage/{{$film->video_path}}">{{$film->title}} </li>
+                <li class="list-item @if($loop->first) active @endif" data-src="storage/{{$film->video_path}}">{{pathinfo($film->title,PATHINFO_FILENAME)}} </li>
               @endforeach
           </ul>
 
