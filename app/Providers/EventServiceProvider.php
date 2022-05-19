@@ -152,26 +152,51 @@ class EventServiceProvider extends ServiceProvider
                             ]); 
                     }else if ($path == 'homepage') {
                         $cat = Category::where('name', 'homepage')->first();
+                        $image = new Image();
+                        $image->imageable_type = get_class($cat);
+                        $image->imageable_id = $cat->id;
+                        $image->frontendPath = $cat->frontendPath . $file['name'];
+                        $image->image_path = $file['name'];
+                        $image->save();
+                        /*
                         $cat->images()->create([
                             'frontendPath' => $cat->frontendPath . $file['name'],
                             'image_path' => $file['name']
                         ]);
+                        */
                     } else if ($path == 'about') {
                         $cat = Category::where('name', 'about')->first();
+
+                        $image = new Image();
+                        $image->imageable_type = get_class($cat);
+                        $image->imageable_id = $cat->id;
+                        $image->frontendPath = $cat->frontendPath . '/' . $file['name'];
+                        $image->image_path = $file['name'];
+                        $image->save();
+                        /*
                         $cat->images()->create([
                             'frontendPath' => $cat->frontendPath . $file['name'],
                             'image_path' => $file['name']
                         ]);
+                        */
                     } else if (isCategoryDir($path)) {
                         abort(401, 'Non puoi creare file dentro alle category, solo aggiungere raccolte.');
                     } else if (isDirectoryTooNested($path)) {
                         abort(401, 'Azione non permessa.');
                     } else {
                         $racc = Raccolta::where('titolo', explode('/', $path)[1])->first();
+                        $image = new Image();
+                        $image->imageable_type = get_class($racc);
+                        $image->imageable_id = $racc->id;
+                        $image->frontendPath = $racc->frontendPath . $file['name'];
+                        $image->image_path = $file['name'];
+                        $image->save();
+                        /*
                         $racc->images()->create([
                             'frontendPath' => $racc->frontendPath . $file['name'],
                             'image_path' => $file['name']
                         ]);
+                        */
                     }
                 }
             }
