@@ -63,14 +63,15 @@ class EventServiceProvider extends ServiceProvider
                     abort(401, 'Azione non permessa');
                 }
                 $path = $event->path();
+                $title = $event->name();
                 Log::info($event->path());
                 if (isRootDir($path)) {
-                    Category::factory()->create(['name' => $event->name()]);
+                    Category::factory()->create(['name' => $title]);
                 } else {
                     $cat = Category::where('name', $path)->first();
-                    $paths = RaccoltaFactory::createPaths($cat, $event->name());
+                    $paths = RaccoltaFactory::createPaths($cat, $title);
                     Raccolta::create([
-                        'titolo' => $event->name(),
+                        'titolo' => $title,
                         'category_id' => $cat->id,
                         'path' => $paths['path'],
                         'frontendPath' => $paths['frontendPath']
@@ -169,7 +170,7 @@ class EventServiceProvider extends ServiceProvider
                     } else {
                         $racc = Raccolta::where('titolo', explode('/', $path)[1])->first();
                         $racc->images()->create([
-                            'frontendPath' => $racc->frontendPath . $file['name'],
+                            'frontendPath' => $racc->frontendPath . '/' . $file['name'],
                             'image_path' => $file['name']
                         ]);
                     }

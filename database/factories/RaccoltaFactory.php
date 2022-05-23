@@ -28,7 +28,7 @@ class RaccoltaFactory extends Factory
         $path = 'public/' . $cat->name . '/' . $titolo;
         $frontendPath = 'storage/' . $cat->name . '/' . $titolo;
 
-        Storage::makeDirectory($path);
+        //Storage::makeDirectory($path);
 
 
         return ['path' => 'storage/app/public/' . $cat->name . '/' . $titolo, 'frontendPath' => $frontendPath];
@@ -41,7 +41,7 @@ class RaccoltaFactory extends Factory
         $path = 'public/' . $cat->name . '/' . $this->titolo;
         $frontendPath = 'storage/' . $cat->name . '/' . $this->titolo . '/';
 
-        Storage::makeDirectory($path);
+        //Storage::makeDirectory($path);
 
 
         $path = 'storage/app/public/' . $cat->name . '/' . $this->titolo;
