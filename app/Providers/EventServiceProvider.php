@@ -147,11 +147,8 @@ class EventServiceProvider extends ServiceProvider
 
                 foreach ($event->files() as $file) {
                     if($path == 'video'){
-                            Film::create([
-                                    'title' => $file['name'],
-                                    'video_path' => 'video/' . $file['name']
-                            ]); 
-                    }else if ($path == 'homepage') {
+                        Log::info("Uploading video...");
+                    } else if ($path == 'homepage') {
                         $cat = Category::where('name', 'homepage')->first();
                         $cat->images()->create([
                             'frontendPath' => $cat->frontendPath . $file['name'],
@@ -173,6 +170,27 @@ class EventServiceProvider extends ServiceProvider
                             'frontendPath' => $racc->frontendPath . '/' . $file['name'],
                             'image_path' => $file['name']
                         ]);
+                    }
+                }
+            }
+        );
+        Event::listen(
+            'Alexusmai\LaravelFileManager\Events\FilesUploaded',
+            function ($event) {
+                Log::info('FilesUploaded:', [
+                    $event->disk(),
+                    $event->path(),
+                    $event->files(),
+                    $event->overwrite(),
+                ]);
+
+                $path = $event->path();
+                foreach ($event->files() as $file) {
+                    if($path == 'video'){
+                            Film::create([
+                                    'title' => $file['name'],
+                                    'video_path' => 'video/' . $file['name']
+                            ]); 
                     }
                 }
             }
