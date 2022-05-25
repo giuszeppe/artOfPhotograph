@@ -9,7 +9,7 @@ class Raccolta extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name','titolo','frontendPath','path','category_id'];
 
     public function images()
     {

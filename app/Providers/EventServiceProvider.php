@@ -63,14 +63,15 @@ class EventServiceProvider extends ServiceProvider
                     abort(401, 'Azione non permessa');
                 }
                 $path = $event->path();
+                $title = $event->name();
                 Log::info($event->path());
                 if (isRootDir($path)) {
-                    Category::factory()->create(['name' => $event->name()]);
+                    Category::factory()->create(['name' => $title]);
                 } else {
                     $cat = Category::where('name', $path)->first();
-                    $paths = RaccoltaFactory::createPaths($cat, $event->name());
+                    $paths = RaccoltaFactory::createPaths($cat, $title);
                     Raccolta::create([
-                        'titolo' => $event->name(),
+                        'titolo' => $title,
                         'category_id' => $cat->id,
                         'path' => $paths['path'],
                         'frontendPath' => $paths['frontendPath']
@@ -146,11 +147,8 @@ class EventServiceProvider extends ServiceProvider
 
                 foreach ($event->files() as $file) {
                     if($path == 'video'){
-                            Film::create([
-                                    'title' => $file['name'],
-                                    'video_path' => 'video/' . $file['name']
-                            ]); 
-                    }else if ($path == 'homepage') {
+                        Log::info("Uploading video...");
+                    } else if ($path == 'homepage') {
                         $cat = Category::where('name', 'homepage')->first();
                         $image = new Image();
                         $image->imageable_type = get_class($cat);
@@ -193,10 +191,31 @@ class EventServiceProvider extends ServiceProvider
                         $image->save();
                         /*
                         $racc->images()->create([
-                            'frontendPath' => $racc->frontendPath . $file['name'],
+                            'frontendPath' => $racc->frontendPath . '/' . $file['name'],
                             'image_path' => $file['name']
                         ]);
                         */
+                    }
+                }
+            }
+        );
+        Event::listen(
+            'Alexusmai\LaravelFileManager\Events\FilesUploaded',
+            function ($event) {
+                Log::info('FilesUploaded:', [
+                    $event->disk(),
+                    $event->path(),
+                    $event->files(),
+                    $event->overwrite(),
+                ]);
+
+                $path = $event->path();
+                foreach ($event->files() as $file) {
+                    if($path == 'video'){
+                            Film::create([
+                                    'title' => $file['name'],
+                                    'video_path' => 'video/' . $file['name']
+                            ]); 
                     }
                 }
             }

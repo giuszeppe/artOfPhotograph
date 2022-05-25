@@ -61,8 +61,12 @@ class DatabaseSeeder extends Seeder
 
     public function run()
     {
-        $faker = Faker\Factory::create();
 
+        $faker = Faker\Factory::create();
+        $faker->addProvider(new \Smknstd\FakerPicsumImages\FakerPicsumImagesProvider($faker));;
+
+        
+        
         $dirs = Storage::directories('public/');
         
 
@@ -86,7 +90,8 @@ class DatabaseSeeder extends Seeder
         ]);
         Category::factory()
             ->hasImages(1, function ($attributes, Category $cat) use ($faker) {
-                $imageName = $faker->image($cat->path, 640, 425, null, false);
+                Log::info($cat->path);
+                $imageName = $faker->image('storage/app/public/homepage', 640, 425, false);
                 $frontendPath = $cat->frontendPath . '/' . $imageName;
                 return [
                     "image_path" => $imageName,
@@ -96,7 +101,7 @@ class DatabaseSeeder extends Seeder
             ->create(['name' => 'homepage']);
         Category::factory()
             ->hasImages(1, function ($attributes, Category $cat) use ($faker) {
-                $imageName = $faker->image($cat->path, 640, 425, null, false);
+                $imageName = $faker->image($cat->path, 640, 425, false);
                 $frontendPath = $cat->frontendPath . '/' . $imageName;
                 return [
                     "image_path" => $imageName,
@@ -108,8 +113,8 @@ class DatabaseSeeder extends Seeder
         Category::factory()
             ->has(
                 Raccolta::factory()->count(3)
-                    ->hasImages(4, function ($attributes, Raccolta $racc) use ($faker) {
-                        $imageName = $faker->image($racc->path, 640, 425, null, false);
+                    ->hasImages(2, function ($attributes, Raccolta $racc) use ($faker) {
+                        $imageName = $faker->image($racc->path, 640, 425, false);
                         $frontendPath = $racc->frontendPath . '/' . $imageName;
 
                         return [
@@ -118,7 +123,8 @@ class DatabaseSeeder extends Seeder
                         ];
                     }),
                 'raccolte'
-            )->count(4)
+            )->count(3)
             ->create();
+            
     }
 }
