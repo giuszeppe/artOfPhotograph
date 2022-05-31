@@ -17,7 +17,7 @@ src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJp_gYPI6iLhMRP1jnD
                 <div class="col-sm-6">
                   <div class="form-field">
                     <label>
-                      <input type="text" name="name" placeholder="Nome" required="required">
+                      <input type="text" name="name" placeholder="{{__('contacts.name')}}" required="required">
                     </label>
                   </div>
                   <!--/.form-field --> 
@@ -26,7 +26,7 @@ src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJp_gYPI6iLhMRP1jnD
                 <div class="col-sm-6">
                   <div class="form-field">
                     <label>
-                      <input type="email" name="email" placeholder="La tua mail" required="required">
+                      <input type="email" name="email" placeholder="{{__('contacts.your_email')}}" required="required">
                     </label>
                   </div>
                   <!--/.form-field --> 
@@ -60,7 +60,7 @@ src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJp_gYPI6iLhMRP1jnD
               <!--/.row -->
               <textarea name="message" placeholder="{{ __("contacts.write_here") }}" required="required"></textarea>
               <!--/.radio-set -->
-              <input type="submit" class="btn" value="Invia" data-error="{{ __("contacts.fix_errors") }}" data-processing="{{ __("contacts.send") }}" data-success="{{ __("contacts.thanks") }}">
+              <input type="submit" class="btn" value="{{__('send')}}" data-error="{{ __("contacts.fix_errors") }}" data-processing="{{ __("contacts.send") }}" data-success="{{ __("contacts.thanks") }}">
               <footer class="notification-box"></footer>
             </form>
             <!--/.vanilla-form --> 

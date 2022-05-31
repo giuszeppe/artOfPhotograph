@@ -8,7 +8,9 @@ return [
     'fix_errors' => 'Fix the errors',
     'address' => 'address',
     'send' => 'Sending...',
-    'thanks' => 'Thanks!'
+    'thanks' => 'Thanks!',
+    'your_email' => 'your email',
+    'name' => 'name'
 
 
 ];

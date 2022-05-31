@@ -9,6 +9,6 @@ return [
     'address' => 'Indirizzo',
     'send' => 'Invio...',
     'thanks' => 'Grazie!',
-
-
+    'your_email' => 'La tua email',
+    'name' => 'nome'
 ];
