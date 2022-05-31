@@ -33,6 +33,10 @@ Route::get('switchLocale/{locale}', function ($locale) {
     return redirect()->back();
 })->name('switchLocale');
 
+Route::get('/uploadVideo', function (){
+    return 'uploaded';
+});
+
 
 
 Auth::routes();

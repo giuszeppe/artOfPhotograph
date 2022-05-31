@@ -8,6 +8,8 @@ use App\Models\Film;
 use App\Models\Raccolta;
 use App\Models\User;
 use Faker;
+use Google\Service\YouTube;
+use Google_Client;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -23,40 +25,41 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
 
-    static function addToFile($file, $where, $data)
-    {
-        $imgName = explode('/', $data);
-        $data = '
-        <!--REMOVE ' . end($imgName) . '-->' . '
-        <div class="item" style="width:auto; height:550px;">
-                <figure class="frame">
-                        <img src="' . $data . '" alt="" />
-                </figure>
-        </div>';
-        $contents = file_get_contents($file);
-        $pos = strpos($contents, '<!--APPEND HERE-->');
-        $contents = substr_replace($contents, $data, $pos + strlen('<!--APPEND HERE--> '), 0);
-        file_put_contents($file, $contents);
+     static public function fetchVideoFromYoutube(){
+        Film::truncate();
+        $DEVELOPER_KEY = 'AIzaSyCGILPCMutOGD0Gs5A5E2B1EHeqwC9hyx4';
 
-        return 0;
-    }
-    static function removeFromFile($file, $imageInstance)
-    {
-        $lines = file($file);
-        $i = 0;
-        $linePos = 0;
-        if (!$lines) {
-            abort(404, 'file not found');
+        $client = new Google_Client();
+        
+
+        $client->setDeveloperKey($DEVELOPER_KEY);
+
+        // Define an object that will be used to make all API requests.
+        $youtube = new Youtube($client);
+
+
+        // Call the search.list method to retrieve results matching the specified
+        // query term.
+        $searchResponse = $youtube->search->listSearch('id,snippet', ['channelId' => 'UCd7aULLkxl-y-K1RfyUmqQQ','maxResults' => 100]);
+
+        $videos = '';
+        $channels = '';
+        $playlists = '';
+
+        // Add each result to the appropriate list, and then display the lists of
+        // matching videos, channels, and playlists.
+        foreach ($searchResponse->getItems() as $searchResult) {
+            switch ($searchResult['id']['kind']) {
+                case 'youtube#video':
+                  Log::info([$searchResult['snippet']['title'], $searchResult['id']['videoId']]);
+                  Film::create([
+                      'title' => html_entity_decode($searchResult['snippet']['title']),
+                      'video_path' => $searchResult['id']['videoId']
+                  ]);
+                  break;
+              }
+            
         }
-        for ($i = 0; $i < count($lines); $i++) {
-            $pos = strpos($lines[$i], '<!--REMOVE ' . $imageInstance->image_path . '-->');
-            if ($pos != false) {
-                $linePos = $i;
-                break;
-            }
-        }
-        array_splice($lines, $linePos, 6);
-        file_put_contents($file, $lines);
     }
 
     public function run()
@@ -68,6 +71,8 @@ class DatabaseSeeder extends Seeder
         
         
         $dirs = Storage::directories('public/');
+
+        static::fetchVideoFromYoutube();
         
 
         foreach ($dirs as $dir) {
@@ -76,11 +81,6 @@ class DatabaseSeeder extends Seeder
             }
             Storage::deleteDirectory($dir);
         }
-        if(Storage::exists('public/video') == false){
-            Storage::makeDirectory('public/video');
-        }
-        Film::factory()->count(3)->create();
-
 
         File::cleanDirectory(public_path('images'));
         DB::table('users')->insert([

@@ -1,6 +1,10 @@
 
 .main-container{
   background:#f2f5f7;
+  min-height:100vh;
+  display:flex;
+  justify-content: center;
+  flex-direction: column;
 }
 .main-container h1{
     padding-top:20px;
@@ -17,6 +21,7 @@
 
 .film-container .side-bar{
   width:400px;
+  margin-right: 5px;
 }
 
 .film-container .side-bar.active{
@@ -77,8 +82,14 @@
   cursor: pointer;
   z-index: 1000;
 }
+  .video-container iframe{
+      width:70% !important;
+  }
 
 @media (max-width:1200px){
+  .video-container iframe{
+      width:80vw !important;
+  }
   .film-container{
     flex-direction: column;
   }
@@ -101,9 +112,6 @@
     box-shadow: 0 0 0 100vw rgba(0,0,0,.8);
     display: initial;
     left:0;
-  }
-  .video-container{
-      max-width:80%;
   }
 }
 

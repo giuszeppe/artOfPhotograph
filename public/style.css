@@ -670,6 +670,11 @@ footer ul.circled li:before {
 /*-----------------------------------------------------------------------------------*/
 /*	03. NAVBAR
 /*-----------------------------------------------------------------------------------*/
+
+    .navbar-logo{
+        width:296px;
+        height: 55px;
+    }
 .navbar {
     z-index: 9998;
     border: 0;
@@ -4051,11 +4056,12 @@ textarea {
 /*-----------------------------------------------------------------------------------*/
 /*	31. RESPONSIVE
 /*-----------------------------------------------------------------------------------*/
+
 @media (min-width: 992px) {
-    /*.navbar-logo{
-        width: 148px;
-        height:25px;
-    }*/
+    .navbar-logo{
+        width: 18vw;
+        height:55px;
+    }
     .navbar {
         display: table;
         padding: 0 40px;
@@ -4457,5 +4463,11 @@ textarea {
 @media (min-width: calc(640px* 5)) {
     .divImmagini {
         width: 20vw;
+    }
+}
+@media (min-width: 1200px) {
+    .navbar-logo{
+        width:296px;
+        height: 55px;
     }
 }

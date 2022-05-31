@@ -8,23 +8,32 @@ use App\Models\Image;
 use App\Models\Raccolta;
 use Database\Factories\RaccoltaFactory;
 use Database\Seeders\DatabaseSeeder;
+use Google\Service\YouTube;
+use Google_Client;
+use Google_Exception;
+use Google_Service_Exception;
+use Hybridauth\Provider\Google;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
-    
-function isRootDir(string|null $path){
-        return $path === null;
+
+function isRootDir(string|null $path)
+{
+    return $path === null;
 }
-function isCategoryDir(string $path){
-    return count(explode('/',$path)) == 1;
+function isCategoryDir(string $path)
+{
+    return count(explode('/', $path)) == 1;
 }
-function isSpecialCategory(string $category){
-    return in_array($category,config('path.specialCategory')); 
+function isSpecialCategory(string $category)
+{
+    return in_array($category, config('path.specialCategory'));
 }
-function isDirectoryTooNested(string $path){
-    return count(explode('/',$path)) > 2;
+function isDirectoryTooNested(string $path)
+{
+    return count(explode('/', $path)) > 2;
 }
 
 class EventServiceProvider extends ServiceProvider
@@ -117,15 +126,13 @@ class EventServiceProvider extends ServiceProvider
                     $cat->images()->create([
                         'image_path' => $path . '/' . $event->name(),
                     ]);
-                
-
                 } else if (isCategoryDir($path)) {
                     abort(401, 'Non puoi creare file dentro alle category, solo aggiungere raccolte.');
                 } else if (isDirectoryTooNested($path)) {
                     abort(401, 'Azione non permessa.');
                 } else {
                     $racc = Raccolta::where('titolo', explode('/', $path)[1])->first();
-                    
+
                     $img = new Image();
                     $img->image_path =  $path . '/' . $event->name();
                     $img->imageable_id =  $racc->id;
@@ -146,7 +153,7 @@ class EventServiceProvider extends ServiceProvider
                 $path = $event->path();
 
                 foreach ($event->files() as $file) {
-                    if($path == 'video'){
+                    if ($path == 'video') {
                         Log::info("Uploading video...");
                     } else if ($path == 'homepage') {
                         $cat = Category::where('name', 'homepage')->first();
@@ -210,15 +217,11 @@ class EventServiceProvider extends ServiceProvider
                 ]);
 
                 $path = $event->path();
-                foreach ($event->files() as $file) {
-                    if($path == 'video'){
-                            Film::create([
-                                    'title' => $file['name'],
-                                    'video_path' => 'video/' . $file['name']
-                            ]); 
-                    }
+                if($path == 'video'){
+
                 }
             }
+        
         );
 
         Event::listen(
@@ -248,10 +251,10 @@ class EventServiceProvider extends ServiceProvider
                         $fileName = end($pathExploded);
                         $fileDir =  $pathExploded[0];
                         //video
-                        if($fileDir == 'video'){
+                        if ($fileDir == 'video') {
                             $film = Film::where('title', $fileName)->first();
                             Film::destroy($film->id);
-                        } else{
+                        } else {
                             $image = Image::where('image_path', $fileName)->first();
                             Image::destroy($image->id);
                         }
@@ -261,4 +264,3 @@ class EventServiceProvider extends ServiceProvider
         );
     }
 }
-

@@ -4,7 +4,7 @@
   <nav class="navbar {{$navOpt}}">
     <div class="navbar-header">
       <div class="basic-wrapper"> 
-        <div class="navbar-brand"> <ul class="nav navbar-nav"> <li> <a href="{{route('home')}}" class=""><img class="navbar-logo" style="width:296px;height:55px;"src="{{ asset('style/images/logo_white.png')}}"></a></li> </ul> </div>
+        <div class="navbar-brand"> <ul class="nav navbar-nav"> <li class="navbar-logo-container"> <a href="{{route('home')}}" class=""><img class="navbar-logo" src="{{ asset('style/images/logo_white.png')}}"></a></li> </ul> </div>
         <a class="btn responsive-menu" data-toggle="collapse" data-target=".navbar-collapse"><i></i></a>
       </div>
       <!-- /.basic-wrapper -->  
