@@ -29,7 +29,7 @@ class CategoryFactory extends Factory
             $cat->path = config('path.pathPrefix') . $cat->name;
             $cat->frontendPath = config('path.frontendPrefix') . $cat->name;
             
-            Storage::makeDirectory('public/' . $cat->name);
+            // Storage::makeDirectory('public/' . $cat->name);
         });
     }
 }

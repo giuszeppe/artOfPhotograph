@@ -193,7 +193,7 @@ class EventServiceProvider extends ServiceProvider
                         $image = new Image();
                         $image->imageable_type = get_class($racc);
                         $image->imageable_id = $racc->id;
-                        $image->frontendPath = $racc->frontendPath . $file['name'];
+                        $image->frontendPath = $racc->frontendPath . '/' . $file['name'];
                         $image->image_path = $file['name'];
                         $image->save();
                         /*
