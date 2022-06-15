@@ -3,7 +3,7 @@
     <div class="container inner">
       <div class="thin">
         <h3 class="section-title text-center">{{__('services.title')}}</h3>
-        <p class="text-center">Nullam quis risus eget urna mollis ornare vel eu leo. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec ullamcorper nulla non metus auctor fringilla. Donec sed odio dui.</p>
+        <p class="text-center">{{__('services.page_description')}}</p>
       </div>
       <!-- /.thin -->
       <div class="divide10"></div>

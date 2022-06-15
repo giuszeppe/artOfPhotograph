@@ -55,10 +55,7 @@
                 <h6>{{ __("about.role") }}</h6>
             </p>
             <div>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur assumenda repellendus aut molestiae itaque eaque explicabo perferendis, deserunt praesentium reiciendis velit maxime a placeat nemo labore? Quidem quae mollitia voluptate?</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, dicta deserunt! Provident molestias voluptatibus beatae maiores voluptas laudantium recusandae odio aliquid consequuntur! Consectetur aperiam numquam neque similique! Doloremque, culpa architecto?</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et voluptates illum voluptatum exercitationem ratione! Optio, minus assumenda repudiandae corporis eaque quae accusamus modi magnam, sapiente perferendis mollitia animi, rem non.</p>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam incidunt facilis cum commodi itaque distinctio tenetur esse. Quidem dolore unde ab? Fugit nobis delectus odit voluptatibus harum modi vero quisquam.</p>
+               <p>{{__('about.bio')}}</p> 
             </div>
         </div>
         <div>

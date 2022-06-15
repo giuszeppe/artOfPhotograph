@@ -9,7 +9,7 @@ src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJp_gYPI6iLhMRP1jnD
       <div class="row">
         <div class="col-sm-8">
           <h2 class="section-title">{{ __("contacts.contact") }}</h2>
-          <p>Nullam quis risus eget urna mollis ornare vel eu leo. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Maecenas faucibus.</p>
+          <p>{{__('contacts.introduction')}}</p>
           <div class="divide10"></div>
           <div class="form-container">
             <form action="#" method="post" class="vanilla vanilla-form" novalidate="novalidate">
@@ -72,8 +72,6 @@ src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJp_gYPI6iLhMRP1jnD
         
         <aside class="col-sm-4">
           <div class="sidebox widget">
-            <h3 class="widget-title">{{ __("contacts.address") }}</h3>
-            <p>Fusce dapibus, tellus commodo, tortor mauris condimentum utellus fermentum, porta sem malesuada magna. Sed posuere consectetur est at lobortis. Morbi leo risus, porta ac consectetur.</p>
             <address>
             <strong>Art of photography</strong><br>
             Via Tiberina 151/B Deruta (PG) 06053<br>

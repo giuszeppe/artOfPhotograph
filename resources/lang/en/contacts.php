@@ -10,7 +10,9 @@ return [
     'send' => 'Sending...',
     'thanks' => 'Thanks!',
     'your_email' => 'your email',
-    'name' => 'name'
+    'name' => 'name',
+    'introduction' => 'Contact us to request an appointment and come and discuss live about the service you need!
+    Follow me also on social networks to not miss updates!'
 
 
 ];
